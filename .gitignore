@@ -1,3 +1,4 @@
 app/Main
 *.hi
 *.o
+images/

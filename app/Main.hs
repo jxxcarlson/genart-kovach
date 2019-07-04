@@ -34,8 +34,28 @@ type Generate a = RandT StdGen (ReaderT World Render) a
 cairo :: Render a -> Generate a
 cairo = lift . lift
 
+getSize :: Num a => Generate (a, a)
+getSize = do
+  (w, h) <- asks (worldWidth &&& worldHeight)
+  pure (fromIntegral w, fromIntegral h)
+
+fillScreen :: (Double -> Render a) -> Double -> Generate ()
+fillScreen color opacity = do
+  (w, h) <- getSize @Double
+  cairo $ do
+    rectangle 0 0 w h
+    color opacity *> fill
+
+hsva :: Double -> Double -> Double -> Double -> Render ()
+hsva h s v = setSourceRGBA channelRed channelGreen channelBlue
+ where RGB{..} = hsv h s v
+
+eggshell :: Double -> Render ()
+eggshell = hsva 71 0.13 0.96
+
 renderSketch :: Generate ()
-renderSketch = pure () -- no-op
+renderSketch = do
+  fillScreen eggshell 1
 
 main :: IO ()
 main = do
