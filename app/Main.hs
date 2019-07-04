@@ -28,6 +28,14 @@ data World = World
   , worldScale  :: Double
   }
 
+data Quad = Quad
+  { quadA :: V2 Double
+  , quadB :: V2 Double
+  , quadC :: V2 Double
+  , quadD :: V2 Double
+  } deriving (Eq, Ord)
+
+
 type Generate a = RandT StdGen (ReaderT World Render) a
 
 -- | Lift a Cairo action into a Generate action
@@ -53,9 +61,44 @@ hsva h s v = setSourceRGBA channelRed channelGreen channelBlue
 eggshell :: Double -> Render ()
 eggshell = hsva 71 0.13 0.96
 
+fromIntegralVector :: V2 Int -> V2 Double
+fromIntegralVector (V2 x y) = V2 (fromIntegral x) (fromIntegral y)
+
+genQuadGrid :: Generate [Quad]
+genQuadGrid = do
+  (w, h) <- getSize @Int
+  vectors <- replicateM 800 $ do
+    v <- V2 <$> getRandomR (3, w `div` 2 - 3) <*> getRandomR (3, h `div` 2 - 3)
+    pure $ v ^* 2
+  pure . nub . flip map vectors $ \v ->
+    let v' = fromIntegralVector v
+    in Quad v' (v' ^+^ V2 0 1.5) (v' ^+^ V2 1.5 1.5) (v' ^+^ V2 1.5 0)
+
+renderClosedPath :: [V2 Double] -> Render ()
+renderClosedPath (V2 x y:vs) = do
+  newPath
+  moveTo x y
+  for_ vs $ \v -> let V2 x' y' = v in lineTo x' y'
+  closePath
+renderClosedPath [] = pure ()
+
+renderQuad :: Quad -> Render ()
+renderQuad Quad{..} = renderClosedPath [quadA, quadB, quadC, quadD]
+
+darkGunmetal :: Double -> Render ()
+darkGunmetal = hsva 170 0.30 0.16
+
 renderSketch :: Generate ()
 renderSketch = do
   fillScreen eggshell 1
+
+  cairo $ setLineWidth 0.15
+
+  quads <- genQuadGrid
+
+  cairo $ for_ quads $ \quad -> do
+    renderQuad quad
+    darkGunmetal 1 *> stroke
 
 main :: IO ()
 main = do
