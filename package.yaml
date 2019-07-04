@@ -1,0 +1,56 @@
+name:                art
+version:             0.1.0.0
+github:              "jxxcarlson/art"
+license:             BSD3
+author:              "James Carlson"
+maintainer:          "jxxcarlson@gmail.com"
+copyright:           "2018"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Graphs
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/jxxcarlson/art#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- MonadRandom >= 0.5 && < 6
+- mtl
+- colour >= 2.3.5 && < 3
+- time >= 1.4 && < 2
+- cairo >= 0.13 && < 0.14
+- linear >= 1.20 && < 2.0
+- hsnoise >= 0.0.2 && < 0.1
+
+
+library:
+  source-dirs: src
+
+executables:
+  art-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - art
+
+tests:
+  art-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - art

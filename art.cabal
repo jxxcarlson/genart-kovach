@@ -1,0 +1,83 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.1.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 5a686e812a6cca5746e32f066f37e7c7afa9f593187398ddf1686f9a0095e372
+
+name:           art
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/jxxcarlson/art#readme>
+homepage:       https://github.com/jxxcarlson/art#readme
+bug-reports:    https://github.com/jxxcarlson/art/issues
+author:         James Carlson
+maintainer:     jxxcarlson@gmail.com
+copyright:      2018
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/jxxcarlson/art
+
+library
+  exposed-modules:
+      Lib
+  other-modules:
+      Paths_art
+  hs-source-dirs:
+      src
+  build-depends:
+      MonadRandom >=0.5 && <6
+    , base >=4.7 && <5
+    , cairo >=0.13 && <0.14
+    , colour >=2.3.5 && <3
+    , hsnoise >=0.0.2 && <0.1
+    , linear >=1.20 && <2.0
+    , mtl
+    , time >=1.4 && <2
+  default-language: Haskell2010
+
+executable art-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_art
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      MonadRandom >=0.5 && <6
+    , art
+    , base >=4.7 && <5
+    , cairo >=0.13 && <0.14
+    , colour >=2.3.5 && <3
+    , hsnoise >=0.0.2 && <0.1
+    , linear >=1.20 && <2.0
+    , mtl
+    , time >=1.4 && <2
+  default-language: Haskell2010
+
+test-suite art-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_art
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      MonadRandom >=0.5 && <6
+    , art
+    , base >=4.7 && <5
+    , cairo >=0.13 && <0.14
+    , colour >=2.3.5 && <3
+    , hsnoise >=0.0.2 && <0.1
+    , linear >=1.20 && <2.0
+    , mtl
+    , time >=1.4 && <2
+  default-language: Haskell2010
