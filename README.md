@@ -46,4 +46,4 @@ $ stack run
 
 You will find the generated image in `images/example_sketch`, e.g,
 
-![Image](images/example_sketch/k1.png)
+![Image](k1.png)
