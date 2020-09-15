@@ -1,9 +1,0 @@
-Configuring invariant-0.5.3...
-Preprocessing library for invariant-0.5.3..
-Building library for invariant-0.5.3..
-[1 of 4] Compiling Data.Functor.Invariant ( src/Data/Functor/Invariant.hs, .stack-work/dist/x86_64-osx/Cabal-2.4.0.1/build/Data/Functor/Invariant.o )
-[2 of 4] Compiling Data.Functor.Invariant.TH.Internal ( src/Data/Functor/Invariant/TH/Internal.hs, .stack-work/dist/x86_64-osx/Cabal-2.4.0.1/build/Data/Functor/Invariant/TH/Internal.o )
-[3 of 4] Compiling Data.Functor.Invariant.TH ( src/Data/Functor/Invariant/TH.hs, .stack-work/dist/x86_64-osx/Cabal-2.4.0.1/build/Data/Functor/Invariant/TH.o )
-[4 of 4] Compiling Paths_invariant  ( .stack-work/dist/x86_64-osx/Cabal-2.4.0.1/build/autogen/Paths_invariant.hs, .stack-work/dist/x86_64-osx/Cabal-2.4.0.1/build/Paths_invariant.o )
-Installing library in /Users/carlson/.stack/snapshots/x86_64-osx/lts-13.27/8.6.5/lib/x86_64-osx-ghc-8.6.5/invariant-0.5.3-C4qWYTLFOAIK5LtMGmiNoY
-Registering library for invariant-0.5.3..

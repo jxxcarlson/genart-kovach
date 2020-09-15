@@ -85,6 +85,15 @@ renderClosedPath [] = pure ()
 renderQuad :: Quad -> Render ()
 renderQuad Quad{..} = renderClosedPath [quadA, quadB, quadC, quadD]
 
+teaGreen :: Double -> Render ()
+teaGreen = hsva 81 0.25 0.94
+
+vividTangerine :: Double -> Render ()
+vividTangerine = hsva 11 0.40 0.92
+
+englishVermillion :: Double -> Render ()
+englishVermillion = hsva 355 0.68 0.84
+
 darkGunmetal :: Double -> Render ()
 darkGunmetal = hsva 170 0.30 0.16
 
@@ -108,8 +117,8 @@ quadAddNoise Quad{..} = do
     (addNoise quadC)
     (addNoise quadD)
 
-renderSketch :: Generate ()
-renderSketch = do
+renderBlankSketch :: Generate ()
+renderBlankSketch = do
   fillScreen eggshell 1
 
   cairo $ setLineWidth 0.15
@@ -120,6 +129,27 @@ renderSketch = do
   cairo $ for_ noisyQuads $ \quad -> do
     renderQuad quad
     darkGunmetal 1 *> stroke
+
+renderSketch :: Generate ()
+renderSketch = do
+  fillScreen eggshell 1
+
+  cairo $ setLineWidth 0.15
+
+  quads <- genQuadGrid
+  noisyQuads <- traverse quadAddNoise quads
+
+  for_ noisyQuads $ \quad -> do
+    strokeOrFill <- weighted [(fill, 0.4), (stroke, 0.6)]
+    color <- uniform
+       [ teaGreen
+       , vividTangerine
+       , englishVermillion
+       , darkGunmetal
+       ]
+    cairo $ do
+      renderQuad quad
+      color 1 *> strokeOrFill
 
 main :: IO ()
 main = do

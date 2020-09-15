@@ -1,8 +1,0 @@
-Configuring parallel-3.2.2.0...
-Preprocessing library for parallel-3.2.2.0..
-Building library for parallel-3.2.2.0..
-[1 of 3] Compiling Control.Parallel ( Control/Parallel.hs, .stack-work/dist/x86_64-osx/Cabal-2.4.0.1/build/Control/Parallel.o )
-[2 of 3] Compiling Control.Seq      ( Control/Seq.hs, .stack-work/dist/x86_64-osx/Cabal-2.4.0.1/build/Control/Seq.o )
-[3 of 3] Compiling Control.Parallel.Strategies ( Control/Parallel/Strategies.hs, .stack-work/dist/x86_64-osx/Cabal-2.4.0.1/build/Control/Parallel/Strategies.o )
-Installing library in /Users/carlson/.stack/snapshots/x86_64-osx/lts-13.27/8.6.5/lib/x86_64-osx-ghc-8.6.5/parallel-3.2.2.0-EGl5SOk48TWHAD161C93aQ
-Registering library for parallel-3.2.2.0..

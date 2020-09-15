@@ -1,9 +1,0 @@
-Configuring hsnoise-0.0.2...
-Preprocessing library for hsnoise-0.0.2..
-Building library for hsnoise-0.0.2..
-[1 of 4] Compiling Numeric.Noise    ( src/Numeric/Noise.hs, .stack-work/dist/x86_64-osx/Cabal-2.4.0.1/build/Numeric/Noise.o )
-[2 of 4] Compiling Numeric.Noise.Perlin ( src/Numeric/Noise/Perlin.hs, .stack-work/dist/x86_64-osx/Cabal-2.4.0.1/build/Numeric/Noise/Perlin.o )
-[3 of 4] Compiling Numeric.Noise.Random ( src/Numeric/Noise/Random.hs, .stack-work/dist/x86_64-osx/Cabal-2.4.0.1/build/Numeric/Noise/Random.o )
-[4 of 4] Compiling Numeric.Noise.Ridged ( src/Numeric/Noise/Ridged.hs, .stack-work/dist/x86_64-osx/Cabal-2.4.0.1/build/Numeric/Noise/Ridged.o )
-Installing library in /Users/carlson/dev/haskell/GenerativeArt/art/.stack-work/install/x86_64-osx/lts-13.27/8.6.5/lib/x86_64-osx-ghc-8.6.5/hsnoise-0.0.2-3v0yxuaKl3hl4z2aLUaC5
-Registering library for hsnoise-0.0.2..

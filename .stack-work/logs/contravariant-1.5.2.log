@@ -1,8 +1,0 @@
-Configuring contravariant-1.5.2...
-Preprocessing library for contravariant-1.5.2..
-Building library for contravariant-1.5.2..
-[1 of 3] Compiling Data.Functor.Contravariant.Divisible ( src/Data/Functor/Contravariant/Divisible.hs, .stack-work/dist/x86_64-osx/Cabal-2.4.0.1/build/Data/Functor/Contravariant/Divisible.o )
-[2 of 3] Compiling Data.Functor.Contravariant.Compose ( src/Data/Functor/Contravariant/Compose.hs, .stack-work/dist/x86_64-osx/Cabal-2.4.0.1/build/Data/Functor/Contravariant/Compose.o )
-[3 of 3] Compiling Data.Functor.Contravariant.Generic ( src/Data/Functor/Contravariant/Generic.hs, .stack-work/dist/x86_64-osx/Cabal-2.4.0.1/build/Data/Functor/Contravariant/Generic.o )
-Installing library in /Users/carlson/.stack/snapshots/x86_64-osx/lts-13.27/8.6.5/lib/x86_64-osx-ghc-8.6.5/contravariant-1.5.2-D9VWx6k1yieHQ0oGIr2edP
-Registering library for contravariant-1.5.2..
