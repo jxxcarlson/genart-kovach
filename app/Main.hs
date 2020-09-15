@@ -1,7 +1,16 @@
 {-# LANGUAGE RecordWildCards  #-}
 {-# LANGUAGE TypeApplications #-}
 
--- SOURCE: https://www.kovach.me/posts/2018-03-07-generating-art.html
+{-
+
+The code below comes from a blog post by Benjamin Kovach
+
+  https://www.kovach.me/posts/2018-03-07-generating-art.html
+
+In the main `do` block below, use `renderBlankSketch` instead of `renderSketch` to
+render a "blank drawing."  You can print the blank  drawing and let your kids color it in.
+
+-}
 
 module Main where
 
