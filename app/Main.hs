@@ -48,6 +48,8 @@ data Quad = Quad
 type Generate a = RandT StdGen (ReaderT World Render) a
 
 -- | Lift a Cairo action into a Generate action
+-- lift :: Monad m => m a -> t m a
+-- Lift a computation from the argument monad to the constructed monad.
 cairo :: Render a -> Generate a
 cairo = lift . lift
 
@@ -70,6 +72,13 @@ hsva h s v = setSourceRGBA channelRed channelGreen channelBlue
 eggshell :: Double -> Render ()
 eggshell = hsva 71 0.13 0.96
 
+
+dark :: Double -> Render ()
+dark = hsva 215 1 0.3
+
+dim :: Double
+dim = 1.7
+
 fromIntegralVector :: V2 Int -> V2 Double
 fromIntegralVector (V2 x y) = V2 (fromIntegral x) (fromIntegral y)
 
@@ -81,7 +90,7 @@ genQuadGrid = do
     pure $ v ^* 2
   pure . nub . flip map vectors $ \v ->
     let v' = fromIntegralVector v
-    in Quad v' (v' ^+^ V2 0 1.5) (v' ^+^ V2 1.5 1.5) (v' ^+^ V2 1.5 0)
+    in Quad v' (v' ^+^ V2 0 dim) (v' ^+^ V2 dim dim) (v' ^+^ V2 dim 0)
 
 renderClosedPath :: [V2 Double] -> Render ()
 renderClosedPath (V2 x y:vs) = do
@@ -106,6 +115,13 @@ englishVermillion = hsva 355 0.68 0.84
 darkGunmetal :: Double -> Render ()
 darkGunmetal = hsva 170 0.30 0.16
 
+lightBlue :: Double -> Render ()
+lightBlue = hsva 215 0.13 0.76
+
+ochre :: Double -> Render ()
+ochre = hsva 51 0.13 0.86
+
+
 quadAddNoise :: Quad -> Generate Quad
 quadAddNoise Quad{..} = do
   perlinSeed <- fromIntegral <$> asks worldSeed
@@ -128,7 +144,7 @@ quadAddNoise Quad{..} = do
 
 renderBlankSketch :: Generate ()
 renderBlankSketch = do
-  fillScreen eggshell 1
+  fillScreen dark 1
 
   cairo $ setLineWidth 0.15
 
@@ -141,7 +157,7 @@ renderBlankSketch = do
 
 renderSketch :: Generate ()
 renderSketch = do
-  fillScreen eggshell 1
+  fillScreen dark 1
 
   cairo $ setLineWidth 0.15
 
@@ -151,10 +167,10 @@ renderSketch = do
   for_ noisyQuads $ \quad -> do
     strokeOrFill <- weighted [(fill, 0.4), (stroke, 0.6)]
     color <- uniform
-       [ teaGreen
+       [ lightBlue
        , vividTangerine
        , englishVermillion
-       , darkGunmetal
+       , ochre
        ]
     cairo $ do
       renderQuad quad
