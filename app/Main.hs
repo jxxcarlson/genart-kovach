@@ -14,9 +14,22 @@ render a "blank drawing."  You can print the blank  drawing and let your kids co
 
 module Main where
 
+-- import            Brownian
+
 import           Control.Arrow
 import           Control.Concurrent
-import           Control.Monad.Random
+import Control.Monad.Random
+    ( uniform,
+      weighted,
+      evalRandIO,
+      runRandT,
+      replicateM,
+      void,
+      mkStdGen,
+      MonadRandom(getRandomR),
+      RandT,
+      StdGen,
+      MonadTrans(lift) )
 import           Control.Monad.Reader
 import           Data.Colour.RGBSpace
 import           Data.Colour.RGBSpace.HSV
@@ -24,7 +37,22 @@ import           Data.Foldable            (for_)
 import           Data.List                (nub)
 import           Data.Semigroup           ((<>))
 import           Data.Time.Clock.POSIX
-import           Graphics.Rendering.Cairo
+import Graphics.Rendering.Cairo
+    ( closePath,
+      createImageSurface,
+      fill,
+      lineTo,
+      moveTo,
+      newPath,
+      rectangle,
+      renderWith,
+      scale,
+      setLineWidth,
+      setSourceRGBA,
+      stroke,
+      surfaceWriteToPNG,
+      Render,
+      Format(FormatARGB32) )
 import           Linear.V2
 import           Linear.Vector
 import qualified Numeric.Noise.Perlin     as P
@@ -73,6 +101,17 @@ eggshell = hsva 71 0.13 0.96
 fromIntegralVector :: V2 Int -> V2 Double
 fromIntegralVector (V2 x y) = V2 (fromIntegral x) (fromIntegral y)
 
+origin_ :: V2 Double 
+origin_ = V2 30 30
+
+genPoints :: Int -> Generate [V2 Double]
+genPoints n = replicateM n $ V2 <$> getRandomR  (-1, 1) <*> getRandomR (-1, 1)
+
+genBrownianPath :: Int -> Generate [V2 Double]
+genBrownianPath n = liftM2 (scanl (^+^)) (pure origin_) (genPoints n)
+
+
+
 genQuadGrid :: Generate [Quad]
 genQuadGrid = do
   (w, h) <- getSize @Int
@@ -91,8 +130,24 @@ renderClosedPath (V2 x y:vs) = do
   closePath
 renderClosedPath [] = pure ()
 
+testPath :: [V2 Double]
+testPath = [V2 30 30, V2 30 35, V2 35 35, V2 35 30]
+
+
+renderedTestPath :: Render ()
+renderedTestPath = renderPath testPath
+
+renderPath :: [V2 Double] -> Render ()
+renderPath (V2 x y:vs) = do
+  newPath
+  moveTo x y
+  for_ vs $ \v -> let V2 x' y' = v in lineTo x' y'
+renderPath [] = pure ()
+
 renderQuad :: Quad -> Render ()
 renderQuad Quad{..} = renderClosedPath [quadA, quadB, quadC, quadD]
+
+---  COLORS ---
 
 teaGreen :: Double -> Render ()
 teaGreen = hsva 81 0.25 0.94
@@ -105,6 +160,8 @@ englishVermillion = hsva 355 0.68 0.84
 
 darkGunmetal :: Double -> Render ()
 darkGunmetal = hsva 170 0.30 0.16
+
+--- NOISE ---
 
 quadAddNoise :: Quad -> Generate Quad
 quadAddNoise Quad{..} = do
@@ -126,6 +183,9 @@ quadAddNoise Quad{..} = do
     (addNoise quadC)
     (addNoise quadD)
 
+
+--- RENDER ---
+
 renderBlankSketch :: Generate ()
 renderBlankSketch = do
   fillScreen eggshell 1
@@ -139,6 +199,8 @@ renderBlankSketch = do
     renderQuad quad
     darkGunmetal 1 *> stroke
 
+
+
 renderSketch :: Generate ()
 renderSketch = do
   fillScreen eggshell 1
@@ -147,6 +209,13 @@ renderSketch = do
 
   quads <- genQuadGrid
   noisyQuads <- traverse quadAddNoise quads
+  
+  points <- genBrownianPath 300
+  cairo $ do 
+    renderPath points
+    (englishVermillion 280) *> stroke
+
+
 
   for_ noisyQuads $ \quad -> do
     strokeOrFill <- weighted [(fill, 0.4), (stroke, 0.6)]
@@ -159,6 +228,13 @@ renderSketch = do
     cairo $ do
       renderQuad quad
       color 1 *> strokeOrFill
+      renderedTestPath 
+      color 1 *> stroke
+
+-- evalRandIO $ renderPath <$> (pathV2 30 30 200) :: IO (Render ())
+
+
+--- MAIN ---
 
 main :: IO ()
 main = do
@@ -183,6 +259,7 @@ main = do
     $ do
       cairo $ scale scaleAmount scaleAmount
       renderSketch
+    
 
   putStrLn "Generating art..."
   surfaceWriteToPNG surface

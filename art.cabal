@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.31.1.
+-- This file has been generated from package.yaml by hpack version 0.33.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 5a686e812a6cca5746e32f066f37e7c7afa9f593187398ddf1686f9a0095e372
+-- hash: 70c95af9f49d9a850705a75da285341a278a16633642feca98f4edac6bb8554d
 
 name:           art
 version:        0.1.0.0
@@ -46,6 +46,7 @@ library
 executable art-exe
   main-is: Main.hs
   other-modules:
+      Brownian
       Paths_art
   hs-source-dirs:
       app
